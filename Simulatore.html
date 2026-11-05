@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulatore Finanziario Personale</title>
+    <!-- App installabile su Home / desktop (attiva quando la pagina è pubblicata su https) -->
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Simulatore">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="icon" type="image/png" href="icona-192.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Anteprima del link quando viene inviato su WhatsApp -->
+    <meta property="og:title" content="Simulatore Finanziario Personale">
+    <meta property="og:description" content="Simula accumulo di capitale, versamenti periodici e interessi netti composti.">
+    <meta property="og:image" content="https://simulatore-finanziario.github.io/icona-512.png">
+    <meta property="og:url" content="https://simulatore-finanziario.github.io/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="it_IT">
+    <!-- Tailwind CSS v3.4.17 compilato e incorporato (niente CDN di sviluppo, nessun avviso in console).
+         Se si aggiungono classi Tailwind nuove, va rigenerato: npx tailwindcss@3.4.17 --content Simulatore.html --minify -->
+    <style id="tailwind">*,:after,:before{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/*! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com*/*,:after,:before{box-sizing:border-box;border:0 solid #e5e7eb}:after,:before{--tw-content:""}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;-o-tab-size:4;tab-size:4;font-family:ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0}fieldset,legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{opacity:1;color:#9ca3af}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.container{width:100%}@media (min-width:640px){.container{max-width:640px}}@media (min-width:768px){.container{max-width:768px}}@media (min-width:1024px){.container{max-width:1024px}}@media (min-width:1280px){.container{max-width:1280px}}@media (min-width:1536px){.container{max-width:1536px}}.pointer-events-none{pointer-events:none}.invisible{visibility:hidden}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0}.bottom-4{bottom:1rem}.bottom-full{bottom:100%}.right-4{right:1rem}.z-20{z-index:20}.z-50{z-index:50}.z-\[60\]{z-index:60}.z-\[70\]{z-index:70}.mx-auto{margin-left:auto;margin-right:auto}.mb-0{margin-bottom:0}.mb-0\.5{margin-bottom:.125rem}.mb-1{margin-bottom:.25rem}.mb-1\.5{margin-bottom:.375rem}.mb-2{margin-bottom:.5rem}.mb-4{margin-bottom:1rem}.mt-0{margin-top:0}.mt-0\.5{margin-top:.125rem}.mt-1{margin-top:.25rem}.mt-1\.5{margin-top:.375rem}.mt-2{margin-top:.5rem}.mt-4{margin-top:1rem}.block{display:block}.inline-block{display:inline-block}.flex{display:flex}.table{display:table}.grid{display:grid}.hidden{display:none}.h-1{height:.25rem}.h-1\.5{height:.375rem}.h-2{height:.5rem}.h-2\.5{height:.625rem}.h-4{height:1rem}.h-\[18px\]{height:18px}.h-full{height:100%}.min-h-screen{min-height:100vh}.w-2{width:.5rem}.w-2\.5{width:.625rem}.w-4{width:1rem}.w-full{width:100%}.min-w-0{min-width:0}.max-w-7xl{max-width:80rem}.max-w-\[140px\]{max-width:140px}.max-w-full{max-width:100%}.max-w-sm{max-width:24rem}.flex-1{flex:1 1 0%}.cursor-pointer{cursor:pointer}.select-none{-webkit-user-select:none;-moz-user-select:none;user-select:none}.resize{resize:both}.list-decimal{list-style-type:decimal}.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-end{align-items:flex-end}.items-center{align-items:center}.items-stretch{align-items:stretch}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:.25rem}.gap-1\.5{gap:.375rem}.gap-2{gap:.5rem}.gap-3{gap:.75rem}.gap-4{gap:1rem}.gap-5{gap:1.25rem}.space-y-1>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.25rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.25rem*var(--tw-space-y-reverse))}.space-y-1\.5>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.375rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.375rem*var(--tw-space-y-reverse))}.space-y-3>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.75rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.75rem*var(--tw-space-y-reverse))}.overflow-hidden,.truncate{overflow:hidden}.truncate{text-overflow:ellipsis}.truncate,.whitespace-nowrap{white-space:nowrap}.rounded{border-radius:.25rem}.rounded-2xl{border-radius:1rem}.rounded-lg{border-radius:.5rem}.rounded-xl{border-radius:.75rem}.rounded-t{border-top-left-radius:.25rem;border-top-right-radius:.25rem}.border{border-width:1px}.border-0{border-width:0}.border-b{border-bottom-width:1px}.border-l{border-left-width:1px}.border-t{border-top-width:1px}.border-emerald-200{--tw-border-opacity:1;border-color:rgb(167 243 208/var(--tw-border-opacity,1))}.border-indigo-200{--tw-border-opacity:1;border-color:rgb(199 210 254/var(--tw-border-opacity,1))}.border-indigo-300{--tw-border-opacity:1;border-color:rgb(165 180 252/var(--tw-border-opacity,1))}.border-indigo-500{--tw-border-opacity:1;border-color:rgb(99 102 241/var(--tw-border-opacity,1))}.border-slate-100{--tw-border-opacity:1;border-color:rgb(241 245 249/var(--tw-border-opacity,1))}.border-slate-200{--tw-border-opacity:1;border-color:rgb(226 232 240/var(--tw-border-opacity,1))}.border-slate-300{--tw-border-opacity:1;border-color:rgb(203 213 225/var(--tw-border-opacity,1))}.border-slate-700{--tw-border-opacity:1;border-color:rgb(51 65 85/var(--tw-border-opacity,1))}.border-yellow-200{--tw-border-opacity:1;border-color:rgb(254 240 138/var(--tw-border-opacity,1))}.bg-\[\#f7f8ff\]{--tw-bg-opacity:1;background-color:rgb(247 248 255/var(--tw-bg-opacity,1))}.bg-\[\#fefbdc\]{--tw-bg-opacity:1;background-color:rgb(254 251 220/var(--tw-bg-opacity,1))}.bg-emerald-50{--tw-bg-opacity:1;background-color:rgb(236 253 245/var(--tw-bg-opacity,1))}.bg-emerald-50\/70{background-color:rgba(236,253,245,.7)}.bg-emerald-500{--tw-bg-opacity:1;background-color:rgb(16 185 129/var(--tw-bg-opacity,1))}.bg-emerald-600{--tw-bg-opacity:1;background-color:rgb(5 150 105/var(--tw-bg-opacity,1))}.bg-indigo-100{--tw-bg-opacity:1;background-color:rgb(224 231 255/var(--tw-bg-opacity,1))}.bg-indigo-50{--tw-bg-opacity:1;background-color:rgb(238 242 255/var(--tw-bg-opacity,1))}.bg-indigo-50\/70{background-color:rgba(238,242,255,.7)}.bg-indigo-600{--tw-bg-opacity:1;background-color:rgb(79 70 229/var(--tw-bg-opacity,1))}.bg-slate-100{--tw-bg-opacity:1;background-color:rgb(241 245 249/var(--tw-bg-opacity,1))}.bg-slate-300{--tw-bg-opacity:1;background-color:rgb(203 213 225/var(--tw-bg-opacity,1))}.bg-slate-50{--tw-bg-opacity:1;background-color:rgb(248 250 252/var(--tw-bg-opacity,1))}.bg-slate-900{--tw-bg-opacity:1;background-color:rgb(15 23 42/var(--tw-bg-opacity,1))}.bg-slate-900\/70{background-color:rgba(15,23,42,.7)}.bg-slate-900\/80{background-color:rgba(15,23,42,.8)}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity,1))}.bg-yellow-100{--tw-bg-opacity:1;background-color:rgb(254 249 195/var(--tw-bg-opacity,1))}.p-1{padding:.25rem}.p-1\.5{padding:.375rem}.p-2{padding:.5rem}.p-3{padding:.75rem}.p-3\.5{padding:.875rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.px-1{padding-left:.25rem;padding-right:.25rem}.px-1\.5{padding-left:.375rem;padding-right:.375rem}.px-3{padding-left:.75rem;padding-right:.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-\[0\.5px\]{padding-left:.5px;padding-right:.5px}.py-0{padding-top:0;padding-bottom:0}.py-0\.5{padding-top:.125rem;padding-bottom:.125rem}.py-1{padding-top:.25rem;padding-bottom:.25rem}.py-1\.5{padding-top:.375rem;padding-bottom:.375rem}.py-2{padding-top:.5rem;padding-bottom:.5rem}.pb-0{padding-bottom:0}.pl-5{padding-left:1.25rem}.pt-0{padding-top:0}.pt-0\.5{padding-top:.125rem}.pt-1{padding-top:.25rem}.pt-1\.5{padding-top:.375rem}.text-center{text-align:center}.text-\[10\.5px\]{font-size:10.5px}.text-\[10px\]{font-size:10px}.text-\[11\.5px\]{font-size:11.5px}.text-\[11px\]{font-size:11px}.text-\[13px\]{font-size:13px}.text-\[8px\]{font-size:8px}.text-\[9px\]{font-size:9px}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:.875rem;line-height:1.25rem}.text-xs{font-size:.75rem;line-height:1rem}.font-bold{font-weight:700}.font-extrabold{font-weight:800}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.italic{font-style:italic}.leading-none{line-height:1}.leading-snug{line-height:1.375}.tracking-tight{letter-spacing:-.025em}.tracking-tighter{letter-spacing:-.05em}.tracking-wide{letter-spacing:.025em}.tracking-wider{letter-spacing:.05em}.text-emerald-600{--tw-text-opacity:1;color:rgb(5 150 105/var(--tw-text-opacity,1))}.text-emerald-700{--tw-text-opacity:1;color:rgb(4 120 87/var(--tw-text-opacity,1))}.text-emerald-800{--tw-text-opacity:1;color:rgb(6 95 70/var(--tw-text-opacity,1))}.text-indigo-600{--tw-text-opacity:1;color:rgb(79 70 229/var(--tw-text-opacity,1))}.text-indigo-700{--tw-text-opacity:1;color:rgb(67 56 202/var(--tw-text-opacity,1))}.text-indigo-950{--tw-text-opacity:1;color:rgb(30 27 75/var(--tw-text-opacity,1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184/var(--tw-text-opacity,1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139/var(--tw-text-opacity,1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105/var(--tw-text-opacity,1))}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85/var(--tw-text-opacity,1))}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59/var(--tw-text-opacity,1))}.text-slate-900{--tw-text-opacity:1;color:rgb(15 23 42/var(--tw-text-opacity,1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity,1))}.accent-indigo-600{accent-color:#4f46e5}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgba(0,0,0,.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color)}.shadow-2xl,.shadow-lg{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color),0 4px 6px -4px var(--tw-shadow-color)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgba(0,0,0,.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.ring-2{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow,0 0 #0000)}.ring-indigo-500{--tw-ring-opacity:1;--tw-ring-color:rgb(99 102 241/var(--tw-ring-opacity,1))}.blur{--tw-blur:blur(8px)}.blur,.filter{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.transition{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.duration-300{transition-duration:.3s}.hover\:border-black:hover{--tw-border-opacity:1;border-color:rgb(0 0 0/var(--tw-border-opacity,1))}.hover\:bg-emerald-600:hover{--tw-bg-opacity:1;background-color:rgb(5 150 105/var(--tw-bg-opacity,1))}.hover\:bg-emerald-700:hover{--tw-bg-opacity:1;background-color:rgb(4 120 87/var(--tw-bg-opacity,1))}.hover\:bg-indigo-50:hover{--tw-bg-opacity:1;background-color:rgb(238 242 255/var(--tw-bg-opacity,1))}.hover\:bg-indigo-700:hover{--tw-bg-opacity:1;background-color:rgb(67 56 202/var(--tw-bg-opacity,1))}.hover\:bg-slate-100:hover{--tw-bg-opacity:1;background-color:rgb(241 245 249/var(--tw-bg-opacity,1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow,0 0 #0000)}.focus\:ring-indigo-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(99 102 241/var(--tw-ring-opacity,1))}.group:hover .group-hover\:flex{display:flex}@media (min-width:640px){.sm\:mt-0\.5{margin-top:.125rem}.sm\:block{display:block}.sm\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.sm\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.sm\:items-center{align-items:center}.sm\:gap-3{gap:.75rem}.sm\:whitespace-normal{white-space:normal}.sm\:whitespace-nowrap{white-space:nowrap}.sm\:p-4{padding:1rem}.sm\:text-lg{font-size:1.125rem;line-height:1.75rem}}@media (min-width:768px){.md\:flex-row{flex-direction:row}.md\:whitespace-nowrap{white-space:nowrap}.md\:p-4{padding:1rem}.md\:p-6{padding:1.5rem}.md\:p-8{padding:2rem}.md\:text-left{text-align:left}.md\:text-sm{font-size:.875rem;line-height:1.25rem}.md\:text-xl{font-size:1.25rem;line-height:1.75rem}}@media (min-width:1024px){.lg\:col-span-1{grid-column:span 1/span 1}.lg\:col-span-2{grid-column:span 2/span 2}.lg\:inline{display:inline}.lg\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.lg\:grid-cols-5{grid-template-columns:repeat(5,minmax(0,1fr))}}</style>
+    <!-- Esportazione fedele: modern-screenshot (SVG foreignObject, usa il motore di rendering del browser) + jsPDF -->
+    <script src="https://cdn.jsdelivr.net/npm/modern-screenshot@4.7.0/dist/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@4.2.1/dist/jspdf.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" crossorigin="anonymous">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        /* Ripiego per Ctrl+P: colori di sfondo sempre stampati, A4 orizzontale, pulsanti esclusi */
+        * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        @page { size: A4 landscape; margin: 6mm; }
+        @media print { [data-escludi-export] { display: none !important; } }
+        /* Durante la cattura nativa i pulsanti diventano invisibili senza spostare il layout */
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen p-1 sm:p-4 md:p-8">
+    <!-- Area principale che viene catturata nello screenshot esatto -->
+    <div id="areaCattura" class="max-w-7xl mx-auto p-2 sm:p-4 bg-slate-50">
+        <!-- Header -->
+        <header class="bg-white rounded-xl shadow-sm border border-slate-200 p-3 sm:p-4 mb-4 flex flex-col md:flex-row justify-between items-center gap-2 text-center md:text-left">
+            <div>
+                <h1 class="md:whitespace-nowrap text-base sm:text-lg md:text-xl font-bold text-slate-900 tracking-wide uppercase">SIMULATORE FINANZIARIO PERSONALE</h1>
+                <p class="text-xs text-slate-500 mt-0.5">Report di pianificazione patrimoniale e proiezione costi.</p>
+            </div>
+            <!-- Pulsanti di esportazione: esclusi dalla cattura (attributo data-escludi-export) -->
+            <div id="zonaEsporta" data-escludi-export class="flex flex-wrap items-center justify-center gap-1.5">
+                <button id="btnScreenshot" type="button" onclick="esportaSchermata()" title="Apre la schermata in PDF A4 orizzontale (pagina unica)" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium shadow-sm transition flex items-center gap-1.5 cursor-pointer text-xs">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    Salva PDF
+                </button>
+                <button id="btnInviaLink" type="button" onclick="inviaLink()" title="Invia il link del simulatore (WhatsApp, e-mail…)" class="hidden bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-lg font-medium shadow-sm transition items-center gap-1.5 cursor-pointer text-xs">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+                    Invia link
+                </button>
+                <button id="btnInstalla" type="button" onclick="installaApp()" title="Aggiungi l'icona del simulatore alla schermata Home o al desktop" class="hidden bg-white hover:bg-indigo-50 text-indigo-700 border border-indigo-300 px-3 py-2 rounded-lg font-medium shadow-sm transition items-center gap-1.5 cursor-pointer text-xs">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v12m0 0l-4-4m4 4l4-4M5 20h14"/></svg>
+                    Aggiungi alla Home
+                </button>
+            </div>
+        </header>
+
+        <!-- Area Superiore (Input a sinistra e Risultati/Grafico a destra) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 items-stretch mb-4">
+            <!-- Pannello di Input (Sinistra) -->
+            <div class="lg:col-span-1 space-y-3 bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between">
+                <div class="space-y-3">
+                    <!-- Profilo e Orizzonte -->
+                    <div>
+                        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">1. Il tuo Profilo</h2>
+                        <div class="space-y-1.5">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-700 mb-0.5">Età Attuale (max 100)</label>
+                                <input type="number" id="eta" value="35" min="1" max="100" oninput="validaLimiti(this, 1, 100); eseguiSimulazione()" class="w-full rounded-lg border border-slate-300 p-1.5 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-700 mb-0.5">Orizzonte Temporale anni (max 50)</label>
+                                <input type="number" id="orizzonte" value="20" min="1" max="50" oninput="validaLimiti(this, 1, 50); eseguiSimulazione()" class="w-full rounded-lg border border-slate-300 p-1.5 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="border-slate-100">
+
+                    <!-- Capitale e Versamenti -->
+                    <div>
+                        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">2. Capitale e Versamenti</h2>
+                        <div class="space-y-1.5">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-700 mb-0.5">Capitale Iniziale (€)</label>
+                                <input type="text" id="capitaleIniziale" value="100.000" oninput="formattaCampoInput(this); eseguiSimulazione()" class="w-full rounded-lg border border-slate-300 p-1.5 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-700 mb-0.5">Versamento Periodico (€)</label>
+                                <div class="flex gap-2">
+                                    <input type="text" id="versamentoPeriodico" value="0" oninput="formattaCampoInput(this); eseguiSimulazione()" class="w-full rounded-lg border border-slate-300 p-1.5 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                                    <select id="frequenzaVersamento" onchange="eseguiSimulazione()" class="rounded-lg border border-slate-300 p-1 text-xs bg-white">
+                                        <option value="12">Mensile</option>
+                                        <option value="1">Annuale</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="border-slate-100">
+
+                    <!-- Asset Allocation -->
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500">3. Asset Allocation</h2>
+                            <span id="nomePropostaAttiva" class="text-xs font-semibold text-indigo-600 truncate max-w-[140px]">Bilanciato 60/40</span>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs">
+                                <span class="font-medium text-slate-700">Azioni: <span id="valAzionario">60</span>%</span>
+                                <span class="font-medium text-slate-700">Obbligazioni: <span id="valObbligazionario">40</span>%</span>
+                            </div>
+                            <input type="range" id="sliderAzionario" min="0" max="100" value="60" oninput="aggiornaSlider(this.value)" class="w-full accent-indigo-600 h-1.5 cursor-pointer">
+                            <div class="grid grid-cols-2 gap-2 pt-0.5 border-t border-slate-100 text-[10px] text-slate-500">
+                                <div>Rendimento Storico: <span id="rendimentoMedio">6,10</span>%</div>
+                                <div>Costi Totali Annui: <span id="costoTer">0,18</span>%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pannello dei Risultati (Destra) -->
+            <div class="lg:col-span-2 space-y-3 flex flex-col justify-between">
+                <!-- Capitale Finale, Versato e Netti sullo STESSO RIGO -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
+                    <div class="bg-indigo-50/70 border border-indigo-200 rounded-xl p-3 shadow-xs flex sm:block items-center justify-between gap-2">
+                        <p class="text-[11px] font-bold uppercase tracking-wider text-indigo-700">Capitale Finale Netto</p>
+                        <p id="resCapitaleFinale" class="text-lg md:text-xl whitespace-nowrap sm:whitespace-normal font-extrabold text-indigo-950 sm:mt-0.5 truncate">€ 0</p>
+                    </div>
+                    <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-xs flex sm:block items-center justify-between gap-2">
+                        <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Totale Versato</p>
+                        <p id="resTotaleVersato" class="text-lg md:text-xl whitespace-nowrap sm:whitespace-normal font-bold text-slate-900 sm:mt-0.5 truncate">€ 0</p>
+                    </div>
+                    <div class="bg-emerald-50/70 border border-emerald-200 rounded-xl p-3 shadow-xs flex sm:block items-center justify-between gap-2">
+                        <p class="text-[11px] font-bold uppercase tracking-wider text-emerald-700">Interessi Netti</p>
+                        <p id="resInteressiNetti" class="text-lg md:text-xl whitespace-nowrap sm:whitespace-normal font-extrabold text-emerald-800 sm:mt-0.5 truncate">€ 0</p>
+                    </div>
+                </div>
+
+                <!-- Istogramma Anno per Anno -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-3.5 flex flex-col justify-between flex-1" style="min-height: 295px;">
+                    <div class="flex justify-between items-center mb-1">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700">Istogramma Anno per Anno</h3>
+                        <div class="flex items-center gap-4 text-xs font-medium text-slate-600">
+                            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-slate-300 rounded-xs inline-block"></span> Versato</span>
+                            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-emerald-500 rounded-xs inline-block"></span> Interessi</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Area delle barre -->
+                    <div class="w-full flex-1 border-l border-slate-300 flex flex-col justify-end px-1 pt-0 pb-0 relative overflow-hidden">
+                        <div id="istogrammaVerticaleCorpo" class="w-full flex-1 flex items-end justify-between border-b border-slate-300">
+                            <!-- Popolato via JS -->
+                        </div>
+                        <div id="istogrammaEtichetteAnni" class="w-full h-[18px] flex items-center justify-between">
+                            <!-- Popolato via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Riquadro Proposte Predefinite: ogni scheda contiene nome, destinatari, allocazione e risultati -->
+        <div class="bg-[#fefbdc] rounded-xl shadow-sm border border-yellow-200 p-3 md:p-4">
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="sm:whitespace-nowrap text-xs md:text-sm font-bold uppercase tracking-wider text-slate-700">Proposte Predefinite per Profilo Investitore</h2>
+                <span class="hidden lg:inline text-xs text-slate-400 italic">Usa i tasti freccia (← ↑ → ↓) per navigare tra le proposte</span>
+            </div>
+            
+            <!-- Griglia delle 10 schede: 2 righe x 5 colonne -->
+            <div id="grigliaProposte" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
+                <!-- 10 schede generate da JS -->
+            </div>
+        </div>
+    </div>
+
+    <div id="visorePdf" class="fixed inset-0 z-[60] hidden bg-slate-900/80 p-2 md:p-6 flex-col">
+        <div class="flex items-center justify-between gap-2 mb-2 text-white">
+            <span class="text-sm font-semibold">Anteprima PDF</span>
+            <div class="flex flex-wrap justify-end gap-2">
+                <button id="btnCondividiPdf" type="button" onclick="condividiPdfCorrente()" class="hidden bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">Condividi</button>
+                <button type="button" onclick="scaricaPdfCorrente()" class="bg-white text-slate-900 hover:bg-slate-100 px-3 py-1.5 rounded-lg text-xs font-semibold">Scarica</button>
+                <button type="button" onclick="chiudiVisorePdf()" class="bg-indigo-600 hover:bg-indigo-700 px-3 py-1.5 rounded-lg text-xs font-semibold">Chiudi ✕</button>
+            </div>
+        </div>
+        <iframe id="cornicePdf" title="Anteprima PDF" class="flex-1 w-full rounded-lg bg-white border-0"></iframe>
+        <!-- Al posto dell'anteprima, sui telefoni che non sanno mostrare un PDF dentro la pagina -->
+        <div id="pdfSenzaAnteprima" class="hidden flex-1 w-full rounded-lg bg-white text-slate-800 flex-col items-center justify-center gap-3 p-6 text-center">
+            <p class="text-base font-bold">Il PDF è pronto</p>
+            <p class="text-sm text-slate-600">Usa <b>Condividi</b> per inviarlo (es. WhatsApp) oppure <b>Scarica</b> per salvarlo e aprirlo.</p>
+        </div>
+    </div>
+
+    <!-- Istruzioni "Aggiungi alla Home" per iPhone/iPad (Safari non ha un pulsante automatico) -->
+    <div id="istruzioniHome" class="fixed inset-0 z-[70] hidden bg-slate-900/70 items-end sm:items-center justify-center p-3" onclick="chiudiIstruzioniHome()">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl text-sm text-slate-700" onclick="event.stopPropagation()">
+            <p class="text-base font-bold text-slate-900 mb-2">Aggiungi il Simulatore alla Home</p>
+            <ol id="testoIstruzioniHome" class="list-decimal pl-5 space-y-1.5"></ol>
+            <button type="button" onclick="chiudiIstruzioniHome()" class="w-full mt-4 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold py-2 rounded-xl">Ho capito</button>
+        </div>
+    </div>
+
+    <div id="avvisoExport" class="fixed bottom-4 right-4 z-50 hidden bg-slate-900 text-white text-xs px-3 py-2 rounded-lg shadow-lg"></div>
+
+    <script>
+        // =====================================================================
+        // ESPORTAZIONE FEDELE DELLA SCHERMATA IN PDF A4 ORIZZONTALE
+        // modern-screenshot clona il DOM con gli stili calcolati e i font web
+        // incorporati, e lo fa disegnare al browser stesso (layout identico).
+        // Risoluzione calcolata per la stampa: circa 200 DPI sul foglio A4.
+        // Il PDF si apre subito in anteprima nella pagina (da lì: stampa o scarica).
+        // =====================================================================
+        const COLORE_SFONDO = '#f8fafc'; // bg-slate-50, usato anche per i bordi del PDF
+        const MARGINE_PDF_MM = 5;
+        const DPI_STAMPA = 200; // qualità di stampa A4 con file leggero e generazione rapida
+
+        function mostraAvviso(testo, durataMs) {
+            const a = document.getElementById('avvisoExport');
+            a.innerText = testo;
+            a.classList.remove('hidden');
+            clearTimeout(mostraAvviso._t);
+            if (durataMs) mostraAvviso._t = setTimeout(() => a.classList.add('hidden'), durataMs);
+        }
+
+        function nomeFile(estensione) {
+            const d = new Date();
+            const p = n => String(n).padStart(2, '0');
+            return `Simulatore_Finanziario_${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}.${estensione}`;
+        }
+
+        // setTimeout invece di requestAnimationFrame: non resta mai bloccato
+        const attendiFrame = () => new Promise(r => setTimeout(r, 60));
+
+        async function catturaAreaAltaRisoluzione(target) {
+            if (!window.modernScreenshot) throw new Error('libreria modern-screenshot non caricata (serve internet)');
+            // Larghezza utile del foglio in pollici -> pixel necessari per DPI_STAMPA
+            const larghezzaUtilePollici = (297 - 2 * MARGINE_PDF_MM) / 25.4;
+            const altezzaUtilePollici = (210 - 2 * MARGINE_PDF_MM) / 25.4;
+            const r = target.getBoundingClientRect();
+            const fattoreFoglio = Math.min(larghezzaUtilePollici / r.width, altezzaUtilePollici / r.height);
+            const scala = Math.max(1.5, Math.ceil(fattoreFoglio * DPI_STAMPA * 10) / 10);
+            return await window.modernScreenshot.domToCanvas(target, {
+                scale: scala,
+                backgroundColor: COLORE_SFONDO,
+                // Esclude solo il pulsante di esportazione (e qualunque elemento marcato allo stesso modo)
+                filter: nodo => !(nodo instanceof Element && nodo.hasAttribute('data-escludi-export')),
+                font: { preferredFormat: 'woff2' },
+                timeout: 20000
+            });
+        }
+
+        // Inserisce l'immagine in un PDF A4 orizzontale su UNA sola pagina,
+        // mantenendo le proporzioni (nessuna deformazione, nessun troncamento).
+        function creaPdf(canvas) {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4', compress: true });
+            const pw = pdf.internal.pageSize.getWidth();   // 297
+            const ph = pdf.internal.pageSize.getHeight();  // 210
+            pdf.setFillColor(COLORE_SFONDO);
+            pdf.rect(0, 0, pw, ph, 'F');
+            const maxW = pw - 2 * MARGINE_PDF_MM, maxH = ph - 2 * MARGINE_PDF_MM;
+            const fattore = Math.min(maxW / canvas.width, maxH / canvas.height);
+            const w = canvas.width * fattore, h = canvas.height * fattore;
+            const x = (pw - w) / 2, y = (ph - h) / 2;
+            // PNG senza perdita: testo nitido in stampa
+            pdf.addImage(canvas.toDataURL('image/png'), 'PNG', x, y, w, h, undefined, 'FAST');
+            pdf.setProperties({ title: 'Simulatore Finanziario Personale', creator: 'Simulatore.html' });
+            return pdf;
+        }
+
+        let exportInCorso = false;
+        let pdfCorrente = null, urlPdfCorrente = null, filePdfCorrente = null;
+
+        function apriVisorePdf(pdf) {
+            if (urlPdfCorrente) URL.revokeObjectURL(urlPdfCorrente);
+            pdfCorrente = pdf;
+            const blob = pdf.output('blob');
+            urlPdfCorrente = URL.createObjectURL(blob);
+            filePdfCorrente = new File([blob], nomeFile('pdf'), { type: 'application/pdf' });
+            // Anteprima nella pagina solo se il browser ha il lettore PDF integrato (PC, iPhone);
+            // altrimenti (es. Chrome su Android) restano i pulsanti Condividi / Scarica
+            const anteprima = navigator.pdfViewerEnabled !== false;
+            const cornice = document.getElementById('cornicePdf');
+            cornice.classList.toggle('hidden', !anteprima);
+            document.getElementById('pdfSenzaAnteprima').classList.toggle('hidden', anteprima);
+            document.getElementById('pdfSenzaAnteprima').classList.toggle('flex', !anteprima);
+            if (anteprima) cornice.src = urlPdfCorrente;
+            const puoCondividere = !!(navigator.canShare && navigator.canShare({ files: [filePdfCorrente] }));
+            document.getElementById('btnCondividiPdf').classList.toggle('hidden', !puoCondividere);
+            const v = document.getElementById('visorePdf');
+            v.classList.remove('hidden');
+            v.classList.add('flex');
+        }
+        function chiudiVisorePdf() {
+            const v = document.getElementById('visorePdf');
+            v.classList.add('hidden');
+            v.classList.remove('flex');
+            document.getElementById('cornicePdf').removeAttribute('src');
+        }
+        function scaricaPdfCorrente() { if (pdfCorrente) pdfCorrente.save(nomeFile('pdf')); }
+        async function condividiPdfCorrente() {
+            if (!filePdfCorrente) return;
+            try {
+                await navigator.share({ files: [filePdfCorrente], title: 'Simulatore Finanziario Personale' });
+            } catch (e) {
+                if (e && e.name !== 'AbortError') scaricaPdfCorrente();
+            }
+        }
+
+        // Da schermo stretto (telefono) il PDF viene comunque composto con l'impaginazione
+        // da computer: la pagina viene caricata in una cornice invisibile larga 1280 px,
+        // con gli stessi dati inseriti, e catturata da lì. Serve la pagina pubblicata (https).
+        const LARGHEZZA_PDF = 1280;
+        function serveLayoutDesktop() {
+            return window.innerWidth < 1024 && location.protocol.startsWith('http') && !new URLSearchParams(location.search).has('esporta');
+        }
+        async function catturaInLayoutDesktop() {
+            const f = document.createElement('iframe');
+            f.setAttribute('aria-hidden', 'true');
+            // Dentro lo schermo ma trasparente: fuori schermo il browser non la disegna (PDF vuoto)
+            f.style.cssText = `position:fixed;left:0;top:0;width:${LARGHEZZA_PDF}px;height:1000px;border:0;opacity:0;pointer-events:none;z-index:-1;`;
+            const url = new URL(location.href);
+            url.hash = '';
+            url.searchParams.set('esporta', '1');
+            f.src = url.toString();
+            const caricata = new Promise((ok, ko) => { f.onload = ok; f.onerror = ko; });
+            document.body.appendChild(f);
+            try {
+                await caricata;
+                const w = f.contentWindow, d = f.contentDocument;
+                // Copia lo stato attuale (dati inseriti e proposta selezionata)
+                ['eta', 'orizzonte', 'capitaleIniziale', 'versamentoPeriodico', 'frequenzaVersamento']
+                    .forEach(id => { d.getElementById(id).value = document.getElementById(id).value; });
+                if (indicePropostaAttiva >= 0) {
+                    w.selezionaPropostaPerIndice(indicePropostaAttiva);
+                } else {
+                    const az = document.getElementById('sliderAzionario').value;
+                    d.getElementById('sliderAzionario').value = az;
+                    w.aggiornaSlider(az, true);
+                }
+                if (d.fonts && d.fonts.ready) await Promise.race([d.fonts.ready, new Promise(r => setTimeout(r, 3000))]);
+                await attendiFrame();
+                const cv = await w.catturaAreaAltaRisoluzione(d.getElementById('areaCattura'));
+                // Copia nella pagina principale PRIMA di chiudere la cornice: chiudendola,
+                // il disegno appartenente alla cornice andrebbe perso (PDF vuoto)
+                const copia = document.createElement('canvas');
+                copia.width = cv.width; copia.height = cv.height;
+                copia.getContext('2d').drawImage(cv, 0, 0);
+                return copia;
+            } finally {
+                f.remove();
+            }
+        }
+
+        async function esportaSchermata() {
+            if (exportInCorso) return;
+            if (!window.jspdf || !window.modernScreenshot) {
+                mostraAvviso('Librerie per il PDF non caricate: serve la connessione internet.', 6000);
+                return;
+            }
+            exportInCorso = true;
+            const btn = document.getElementById('btnScreenshot');
+            btn.disabled = true; btn.style.opacity = '0.6';
+            const target = document.getElementById('areaCattura');
+            if (document.activeElement) document.activeElement.blur(); // niente anelli di focus nella cattura
+            mostraAvviso('Generazione PDF in corso…');
+            try {
+                if (document.fonts && document.fonts.ready) {
+                    await Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 3000))]);
+                }
+                await attendiFrame();
+                const canvas = await Promise.race([
+                    serveLayoutDesktop() ? catturaInLayoutDesktop() : catturaAreaAltaRisoluzione(target),
+                    new Promise((_, rej) => setTimeout(() => rej(new Error('tempo scaduto (60 s)')), 60000))
+                ]);
+                apriVisorePdf(creaPdf(canvas));
+                mostraAvviso('PDF pronto.', 2000);
+            } catch (err) {
+                console.error('Errore esportazione:', err);
+                mostraAvviso('Esportazione non riuscita: ' + (err && err.message ? err.message : err), 8000);
+            } finally {
+                exportInCorso = false;
+                btn.disabled = false; btn.style.opacity = '';
+            }
+        }
+
+        // Esc chiude l'anteprima PDF
+        window.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && !document.getElementById('visorePdf').classList.contains('hidden')) chiudiVisorePdf();
+        });
+
+        const proposteInvestitore = [
+            { id: 'prudente_max', nome: 'Salvadanaro', az: 0, desc: 'Destinato a chi non accetta alcuna perdita nominale. Liquidità protetta contro l\'inflazione.', orizzonte: '1 - 2 anni', rendimento: '3.00% lordo' },
+            { id: 'conservativo', nome: 'Difensivo', az: 15, desc: 'Protezione prioritaria con piccolo supporto azionario per preservare il potere d\'acquisto.', orizzonte: '3 - 5 anni', rendimento: '4.10% lordo' },
+            { id: 'prudente_plus', nome: 'Prudente 30/70', az: 30, desc: 'Ideale per chi cerca stabilità riducendo le oscillazioni dei mercati finanziari.', orizzonte: '4 - 6 anni', rendimento: '4.70% lordo' },
+            { id: 'moderato', nome: 'Moderato 45/55', az: 45, desc: 'Profilo mediano: metà difensivo e metà azionario globale per famiglie.', orizzonte: '5 - 8 anni', rendimento: '5.30% lordo' },
+            { id: 'bilanciato', nome: 'Bilanciato 60/40', az: 60, desc: 'Il classico portafoglio mondiale con ottimo equilibrio tra crescita e drawdown.', orizzonte: '7 - 10 anni', rendimento: '6.10% lordo' },
+            { id: 'crescita', nome: 'Crescita 75/25', az: 75, desc: 'Per risparmiatori orientati all\'accumulazione di lungo termine.', orizzonte: '8 - 12 anni', rendimento: '6.50% lordo' },
+            { id: 'dinamico', nome: 'Azionario Globale', az: 90, desc: 'Per beneficiare al massimo dell\'espansione economica mondiale (MSCI World).', orizzonte: '10 - 15 anni', rendimento: '7.10% lordo' },
+            { id: 'massima_resa', nome: 'Aggressivo 100%', az: 100, desc: 'Motore azionario 100% per massimizzare l\'interesse composto su decenni.', orizzonte: '15+ anni', rendimento: '7.50% lordo' },
+            { id: 'giovani', nome: 'PAC Giovani', az: 85, desc: 'Ottimizzato per accumulo mensile continuativo per orizzonti lunghi.', orizzonte: '15 - 30 anni', rendimento: '6.90% lordo' },
+            { id: 'pensione', nome: 'Pensione Integrativa', az: 40, desc: 'Progettato per consolidare il montante mitigando la volatilità verso il ritiro.', orizzonte: '5 - 10 anni', rendimento: '5.10% lordo' }
+        ];
+
+        let indicePropostaAttiva = 2; // Prudente 30/70 di default
+
+        // Rendimento e TER annui (in frazione) per una data quota azionaria, con la stessa formula del cursore
+        function parametriAllocazione(az) {
+            const ob = 100 - az;
+            const rend = parseFloat((az * 0.075 + ob * 0.035).toFixed(2)) / 100;
+            let ter = (az * 0.20 + ob * 0.15) / 100;
+            ter = parseFloat((ter < 0.15 ? 0.18 : ter).toFixed(2)) / 100;
+            return { rend, ter };
+        }
+
+        // Simula Finale / Versato / Interessi per una quota azionaria con i dati inseriti dall'utente
+        function calcolaRisultato(az) {
+            const eta = leggiNumeroDaInput('eta');
+            const orizzonte = leggiNumeroDaInput('orizzonte');
+            const capitaleIniziale = leggiNumeroDaInput('capitaleIniziale');
+            const versamento = leggiNumeroDaInput('versamentoPeriodico');
+            const frequenza = parseInt(document.getElementById('frequenzaVersamento').value) || 12;
+            const { rend, ter } = parametriAllocazione(az);
+            const impostaBollo = 0.002;
+            let capitale = capitaleIniziale, versato = capitaleIniziale, etaCorr = eta;
+            for (let anno = 1; anno <= orizzonte; anno++) {
+                etaCorr++;
+                if (etaCorr > 100) break;
+                const vAnno = versamento * frequenza;
+                versato += vAnno;
+                const interessi = (capitale + vAnno / 2) * rend;
+                const costi = (capitale + vAnno) * (ter + impostaBollo);
+                capitale = Math.max(0, capitale + vAnno + interessi - costi);
+            }
+            return { finale: capitale, versato, interessi: Math.max(0, capitale - versato) };
+        }
+
+        // Importo compatto per le schede: fino a 999.999 per intero, oltre in milioni
+        function importoBreve(v) {
+            if (v >= 1e6) return '€ ' + (v / 1e6).toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' Mln';
+            return '€ ' + formattaMillesimale(v);
+        }
+
+        function generaPulsantiProposte() {
+            const container = document.getElementById('grigliaProposte');
+            let html = '';
+            proposteInvestitore.forEach((p, index) => {
+                const attivo = index === indicePropostaAttiva;
+                const classeAttivo = attivo
+                    ? 'bg-[#f7f8ff] border-indigo-500 ring-2 ring-indigo-500'
+                    : 'bg-white border-slate-700 hover:border-black';
+                const ris = calcolaRisultato(p.az);
+                html += `
+                    <div id="btn-proposta-${index}"
+                         onclick="selezionaPropostaPerIndice(${index})"
+                         class="flex flex-col border rounded-lg p-2 cursor-pointer transition select-none ${classeAttivo}">
+                        <span class="text-[13px] font-bold text-slate-900 truncate">${p.nome}</span>
+                        <div class="mt-0.5">
+                            <span class="bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded text-[9px] font-bold whitespace-nowrap">${p.az}% Azioni · ${100 - p.az}% Obbligazioni</span>
+                        </div>
+                        <p class="text-[10.5px] text-slate-600 leading-snug mt-1 flex-1">${p.desc}</p>
+                        <div class="grid grid-cols-3 gap-1 mt-1.5 pt-1.5 border-t border-slate-200 text-center">
+                            <div class="min-w-0">
+                                <span class="block text-[9px] font-semibold uppercase text-indigo-600">Finale</span>
+                                <strong class="block text-[11.5px] font-extrabold text-indigo-950 whitespace-nowrap tracking-tight">${importoBreve(ris.finale)}</strong>
+                            </div>
+                            <div class="min-w-0">
+                                <span class="block text-[9px] font-semibold uppercase text-slate-500">Versato</span>
+                                <strong class="block text-[11.5px] font-bold text-slate-800 whitespace-nowrap tracking-tight">${importoBreve(ris.versato)}</strong>
+                            </div>
+                            <div class="min-w-0">
+                                <span class="block text-[9px] font-semibold uppercase text-emerald-600">Interessi</span>
+                                <strong class="block text-[11.5px] font-bold text-emerald-700 whitespace-nowrap tracking-tight">${importoBreve(ris.interessi)}</strong>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function selezionaPropostaPerIndice(index) {
+            indicePropostaAttiva = index;
+            const p = proposteInvestitore[index];
+            if (!p) return;
+
+            document.getElementById('nomePropostaAttiva').innerText = p.nome;
+            document.getElementById('sliderAzionario').value = p.az;
+            aggiornaSlider(p.az, false);
+            generaPulsantiProposte();
+        }
+
+        window.addEventListener('keydown', function(e) {
+            const tag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
+            if (tag === 'input' || tag === 'select' || tag === 'textarea') return;
+
+            if (!document.getElementById('visorePdf').classList.contains('hidden')) return;
+
+            const colonne = 5;
+            const totale = 10;
+            let nuovoIndice = indicePropostaAttiva;
+
+            if (e.key === 'ArrowRight') nuovoIndice = (indicePropostaAttiva + 1) % totale;
+            else if (e.key === 'ArrowLeft') nuovoIndice = (indicePropostaAttiva - 1 + totale) % totale;
+            else if (e.key === 'ArrowDown') nuovoIndice = (indicePropostaAttiva + colonne) % totale;
+            else if (e.key === 'ArrowUp') nuovoIndice = (indicePropostaAttiva - colonne + totale) % totale;
+            else return;
+
+            e.preventDefault();
+            selezionaPropostaPerIndice(nuovoIndice);
+        });
+
+        function formattaMillesimale(valore) {
+            let numero = parseFloat(valore);
+            if (isNaN(numero)) numero = 0;
+            return Math.round(numero).toLocaleString('it-IT');
+        }
+
+        function leggiNumeroDaInput(id) {
+            let val = document.getElementById(id).value.replace(/\./g, '').replace(',', '.');
+            let num = parseFloat(val);
+            return isNaN(num) ? 0 : num;
+        }
+
+        function validaLimiti(input, min, max) {
+            let val = parseInt(input.value);
+            if (val > max) input.value = max;
+            if (val < min) input.value = min;
+        }
+
+        function formattaCampoInput(input) {
+            let valPulito = input.value.replace(/\D/g, '');
+            if (valPulito === '') {
+                input.value = '0';
+                return;
+            }
+            let numero = parseInt(valPulito, 10);
+            input.value = numero.toLocaleString('it-IT');
+        }
+
+        function aggiornaSlider(valore, resettaNome = true) {
+            let az = parseInt(valore);
+            let ob = 100 - az;
+            document.getElementById('valAzionario').innerText = az;
+            document.getElementById('valObbligazionario').innerText = ob;
+            
+            let rend = (az * 0.075 + ob * 0.035).toFixed(2).replace('.', ',');
+            let ter = (az * 0.20 + ob * 0.15) / 100;
+            ter = (ter < 0.15 ? 0.18 : ter).toFixed(2).replace('.', ',');
+
+            document.getElementById('rendimentoMedio').innerText = rend;
+            document.getElementById('costoTer').innerText = ter;
+            
+            if (resettaNome) {
+                document.getElementById('nomePropostaAttiva').innerText = 'Personalizzato';
+                indicePropostaAttiva = -1;
+                generaPulsantiProposte();
+            }
+
+            eseguiSimulazione();
+        }
+
+        function eseguiSimulazione() {
+            let eta = leggiNumeroDaInput('eta');
+            if (eta > 100) { eta = 100; document.getElementById('eta').value = 100; }
+            
+            let orizzonte = leggiNumeroDaInput('orizzonte');
+            if (orizzonte > 50) { orizzonte = 50; document.getElementById('orizzonte').value = 50; }
+            if (eta + orizzonte > 100) {
+                orizzonte = 100 - eta;
+                document.getElementById('orizzonte').value = orizzonte;
+            }
+
+            let capitaleIniziale = leggiNumeroDaInput('capitaleIniziale');
+            let versamento = leggiNumeroDaInput('versamentoPeriodico');
+            let frequenza = parseInt(document.getElementById('frequenzaVersamento').value) || 12;
+
+            let rendimentoAnnuo = parseFloat(document.getElementById('rendimentoMedio').innerText.replace(',', '.')) / 100;
+            let costoTerAnnuo = parseFloat(document.getElementById('costoTer').innerText.replace(',', '.')) / 100;
+            let impostaBollo = 0.002;
+
+            let capitaleCorrente = capitaleIniziale;
+            let totaleVersato = capitaleIniziale;
+
+            let htmlIstogramma = '';
+            let htmlEtichetteAnni = '';
+            let anniAnagrafici = eta;
+            let risultatiAnnuI = [];
+            let maxCapitaleTotale = 1;
+
+            let annoCorrenteBase = new Date().getFullYear();
+
+            for (let anno = 1; anno <= orizzonte; anno++) {
+                anniAnagrafici++;
+                if (anniAnagrafici > 100) break;
+                
+                let versamentoAnnualeAnno = versamento * frequenza;
+                totaleVersato += versamentoAnnualeAnno;
+
+                let interessiAnno = (capitaleCorrente + versamentoAnnualeAnno / 2) * rendimentoAnnuo;
+                let costiAnno = (capitaleCorrente + versamentoAnnualeAnno) * (costoTerAnnuo + impostaBollo);
+                
+                capitaleCorrente = capitaleCorrente + versamentoAnnualeAnno + interessiAnno - costiAnno;
+                if (capitaleCorrente < 0) capitaleCorrente = 0;
+
+                if (capitaleCorrente > maxCapitaleTotale) {
+                    maxCapitaleTotale = capitaleCorrente;
+                }
+
+                let interessiTotaliAccumulati = capitaleCorrente - totaleVersato;
+                if (interessiTotaliAccumulati < 0) interessiTotaliAccumulati = 0;
+
+                let annoCompleto = annoCorrenteBase + anno - 1;
+
+                risultatiAnnuI.push({
+                    anno: anno,
+                    annoSolare: annoCompleto,
+                    eta: anniAnagrafici,
+                    totaleVersato: totaleVersato,
+                    interessiNetto: interessiTotaliAccumulati,
+                    capitaleCorrente: capitaleCorrente
+                });
+            }
+
+            let totaleBarre = risultatiAnnuI.length;
+
+            let maxBarWidth = 28;
+            if (totaleBarre > 40) maxBarWidth = 6;
+            else if (totaleBarre > 30) maxBarWidth = 8;
+            else if (totaleBarre > 20) maxBarWidth = 12;
+            else if (totaleBarre > 12) maxBarWidth = 18;
+
+            let inMigliaia = totaleBarre > 8;
+
+            // Su schermi stretti mostra un'etichetta ogni "passo" colonne, così non si sovrappongono
+            const larghezzaGrafico = document.getElementById('istogrammaVerticaleCorpo').clientWidth || 600;
+            const spazioColonna = larghezzaGrafico / Math.max(1, totaleBarre);
+            const passoEtichette = Math.max(1, Math.ceil(22 / spazioColonna));
+            const etichettaVisibile = i => (totaleBarre - 1 - i) % passoEtichette === 0;
+
+            risultatiAnnuI.forEach((r, index) => {
+                let altezzaRelativa = (r.capitaleCorrente / maxCapitaleTotale) * 92;
+                let percVersato = r.capitaleCorrente > 0 ? (r.totaleVersato / r.capitaleCorrente) * 100 : 100;
+                if (percVersato > 100) percVersato = 100;
+                let percInteressi = 100 - percVersato;
+
+                let testoValore = inMigliaia 
+                    ? Math.round(r.capitaleCorrente / 1000).toString() 
+                    : formattaMillesimale(r.capitaleCorrente);
+
+                htmlIstogramma += `
+                    <div class="flex flex-col items-center justify-end h-full flex-1 min-w-0 group relative px-[0.5px]">
+                        <span class="text-[8px] font-bold text-slate-800 mb-0.5 tracking-tight text-center leading-none whitespace-nowrap ${etichettaVisibile(index) ? '' : 'invisible'}">${testoValore}</span>
+                        
+                        <div class="absolute bottom-full mb-1 hidden group-hover:flex flex-col bg-slate-900 text-white text-[9px] p-1.5 rounded shadow-lg z-20 whitespace-nowrap pointer-events-none">
+                            <span class="font-bold">Anno ${r.annoSolare} (Età ${r.eta})</span>
+                            <span>Totale: € ${formattaMillesimale(r.capitaleCorrente)}</span>
+                            <span>Versato: € ${formattaMillesimale(r.totaleVersato)}</span>
+                            <span>Interessi: € ${formattaMillesimale(r.interessiNetto)}</span>
+                        </div>
+                        
+                        <div style="height: ${altezzaRelativa}%; max-width: ${maxBarWidth}px;" class="w-full bg-slate-100 rounded-t flex flex-col justify-end overflow-hidden transition-all duration-300">
+                            <div style="height: ${percInteressi}%" class="bg-emerald-500 w-full"></div>
+                            <div style="height: ${percVersato}%" class="bg-slate-300 w-full"></div>
+                        </div>
+                    </div>
+                `;
+
+                htmlEtichetteAnni += `
+                    <div class="flex-1 min-w-0 text-center px-[0.5px] flex justify-center">
+                        <span class="text-[8px] text-slate-700 font-semibold tracking-tighter whitespace-nowrap block leading-none pt-0.5 ${etichettaVisibile(index) ? '' : 'invisible'}">${r.annoSolare}</span>
+                    </div>
+                `;
+            });
+
+            let ultimoCapitale = risultatiAnnuI.length > 0 ? risultatiAnnuI[risultatiAnnuI.length - 1].capitaleCorrente : capitaleIniziale;
+            let ultimoVersato = risultatiAnnuI.length > 0 ? risultatiAnnuI[risultatiAnnuI.length - 1].totaleVersato : capitaleIniziale;
+            let interessiNettiTotali = ultimoCapitale - ultimoVersato;
+
+            // Aggiorna KPI in alto
+            document.getElementById('resCapitaleFinale').innerText = '€ ' + formattaMillesimale(ultimoCapitale);
+            document.getElementById('resTotaleVersato').innerText = '€ ' + formattaMillesimale(ultimoVersato);
+            document.getElementById('resInteressiNetti').innerText = '€ ' + formattaMillesimale(interessiNettiTotali > 0 ? interessiNettiTotali : 0);
+            
+            document.getElementById('istogrammaVerticaleCorpo').innerHTML = htmlIstogramma;
+            document.getElementById('istogrammaEtichetteAnni').innerHTML = htmlEtichetteAnni;
+
+            // Aggiorna i risultati di tutte le schede proposte con i dati attuali
+            generaPulsantiProposte();
+        }
+
+        window.onload = function() {
+            generaPulsantiProposte();
+            selezionaPropostaPerIndice(2); // Prudente 30/70 di default come da schermata
+        };
+
+        // Ridisegna l'istogramma quando cambia la larghezza (rotazione del telefono, finestra)
+        let timerRidimensiona = null, ultimaLarghezza = window.innerWidth;
+        window.addEventListener('resize', () => {
+            if (window.innerWidth === ultimaLarghezza) return;
+            ultimaLarghezza = window.innerWidth;
+            clearTimeout(timerRidimensiona);
+            timerRidimensiona = setTimeout(eseguiSimulazione, 150);
+        });
+
+        // ===================== APP SU HOME / DESKTOP E INVIO LINK =====================
+        const paginaPubblicata = location.protocol.startsWith('http');
+        const inCorniceExport = new URLSearchParams(location.search).has('esporta');
+        const giaInstallata = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+        const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        let richiestaInstallazione = null;
+
+        function mostraPulsante(id) { const b = document.getElementById(id); b.classList.remove('hidden'); b.classList.add('flex'); }
+
+        if (paginaPubblicata && !inCorniceExport) {
+            // Manifest e service worker solo su https (in locale, file://, darebbero errori in console)
+            const m = document.createElement('link');
+            m.rel = 'manifest';
+            m.href = 'manifest.webmanifest';
+            document.head.appendChild(m);
+            if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(e => console.warn('Service worker:', e));
+
+            mostraPulsante('btnInviaLink');
+            if (!giaInstallata) {
+                if (isIOS) mostraPulsante('btnInstalla');
+                window.addEventListener('beforeinstallprompt', e => {
+                    e.preventDefault();
+                    richiestaInstallazione = e;
+                    mostraPulsante('btnInstalla');
+                });
+                window.addEventListener('appinstalled', () => {
+                    document.getElementById('btnInstalla').classList.add('hidden');
+                    mostraAvviso('Simulatore aggiunto alla Home.', 3000);
+                });
+            }
+        }
+
+        function indirizzoPubblico() {
+            return location.origin + location.pathname.replace(/[^/]*$/, '');
+        }
+
+        async function inviaLink() {
+            const url = indirizzoPubblico();
+            const testo = 'Simulatore Finanziario Personale';
+            if (navigator.share) {
+                try { await navigator.share({ title: testo, text: testo, url }); return; }
+                catch (e) { if (e && e.name === 'AbortError') return; }
+            }
+            // Ripiego (PC senza condivisione di sistema): apre WhatsApp con il link già scritto
+            window.open('https://wa.me/?text=' + encodeURIComponent(testo + ': ' + url), '_blank');
+        }
+
+        async function installaApp() {
+            if (richiestaInstallazione) {
+                richiestaInstallazione.prompt();
+                const scelta = await richiestaInstallazione.userChoice;
+                richiestaInstallazione = null;
+                if (scelta && scelta.outcome === 'accepted') document.getElementById('btnInstalla').classList.add('hidden');
+                return;
+            }
+            const passi = isIOS
+                ? ['Apri questa pagina con <b>Safari</b>.',
+                   'Tocca il pulsante <b>Condividi</b> (il quadrato con la freccia verso l\'alto).',
+                   'Scorri e tocca <b>Aggiungi alla schermata Home</b>.',
+                   'Tocca <b>Aggiungi</b> in alto a destra.']
+                : ['Apri il menu del browser (i tre puntini <b>⋮</b>).',
+                   'Tocca <b>Aggiungi a schermata Home</b> oppure <b>Installa app</b>.'];
+            document.getElementById('testoIstruzioniHome').innerHTML = passi.map(p => `<li>${p}</li>`).join('');
+            const o = document.getElementById('istruzioniHome');
+            o.classList.remove('hidden'); o.classList.add('flex');
+        }
+        function chiudiIstruzioniHome() {
+            const o = document.getElementById('istruzioniHome');
+            o.classList.add('hidden'); o.classList.remove('flex');
+        }
+    </script>
+</body>
+</html>
