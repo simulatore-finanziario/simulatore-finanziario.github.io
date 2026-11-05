@@ -1,7 +1,7 @@
 // Service worker del Simulatore: rende l'app installabile e utilizzabile anche senza rete.
 // Strategia "prima la rete": se c'è connessione si vede sempre l'ultima versione pubblicata,
 // altrimenti si usa la copia salvata. Cambiare VERSIONE per svuotare la cache vecchia.
-const VERSIONE = 'simulatore-v1';
+const VERSIONE = 'simulatore-v2';
 const FILE_APP = ['./', 'Simulatore.html', 'manifest.webmanifest', 'icona-192.png', 'icona-512.png', 'apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
