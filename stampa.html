@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Stampa</title>
+<!--
+  Pagina di stampa generica.
+  Riceve un PDF dentro il collegamento (#n=<nome file>&p=<PDF in base64url>), lo mostra
+  e apre subito la finestra di stampa. Il PDF sta nella parte dopo "#", che il browser
+  non invia mai al server: i dati restano sul dispositivo.
+  Usata dal Diario alimentare (pulsanti Stampa e Modulo).
+-->
+<style>
+  @page { size: A4 landscape; margin: 0; }
+  html, body { margin: 0; background: #e9eeeb; font-family: "Segoe UI", system-ui, sans-serif; color: #1f2e2a; }
+  .barra { position: sticky; top: 0; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 12px 16px; background: #fff; border-bottom: 1px solid #d5ded9; }
+  .barra strong { font-size: 1rem; margin-right: auto; }
+  button, a.btn { font: 600 .95rem "Segoe UI", system-ui, sans-serif; padding: 9px 16px; border-radius: 10px; border: 1px solid #2f6b55; background: #2f6b55; color: #fff; cursor: pointer; text-decoration: none; }
+  a.btn { background: #fff; color: #2f6b55; }
+  #msg { padding: 30px 16px; text-align: center; color: #5f6f69; }
+  #foglio { display: block; margin: 16px auto; width: min(1100px, calc(100% - 32px)); height: auto; background: #fff; box-shadow: 0 2px 12px rgb(0 0 0 / .2); }
+  @media print {
+    .barra, #msg { display: none !important; }
+    html, body { background: #fff; }
+    #foglio { margin: 0; width: 297mm; height: 210mm; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<div class="barra">
+  <strong id="nome">Stampa</strong>
+  <button id="stampa" hidden>Stampa</button>
+  <a class="btn" id="scarica" hidden>Scarica PDF</a>
+</div>
+<div id="msg">Preparo la pagina…</div>
+<img id="foglio" alt="Pagina da stampare" hidden>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script>
+(async () => {
+  const $ = id => document.getElementById(id);
+  const msg = t => { $("msg").textContent = t; $("msg").hidden = !t; };
+  const par = new URLSearchParams(location.hash.slice(1));
+  const nome = par.get("n") || "Stampa.pdf", dati = par.get("p");
+  // toglie il PDF dall'indirizzo e dalla cronologia
+  history.replaceState(null, "", location.pathname);
+  document.title = nome;
+  $("nome").textContent = nome;
+  if (!dati) { msg("Nessun PDF da stampare. Apri questa pagina dal pulsante Stampa del programma."); return; }
+  let bytes;
+  try {
+    const b64 = dati.replace(/-/g, "+").replace(/_/g, "/");
+    const bin = atob(b64 + "===".slice((b64.length + 3) % 4));
+    bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  } catch (e) { msg("Il collegamento è incompleto: riprova dal programma."); return; }
+
+  const blob = new Blob([bytes], { type: "application/pdf" });
+  const url = URL.createObjectURL(blob);
+  $("scarica").href = url; $("scarica").download = nome; $("scarica").hidden = false;
+
+  try {
+    const pdf = await pdfjsLib.getDocument({ data: bytes.slice() }).promise;
+    const pagina = await pdf.getPage(1);
+    const vp = pagina.getViewport({ scale: 250 / 72 });            // circa 250 dpi
+    const cv = document.createElement("canvas");
+    cv.width = Math.floor(vp.width); cv.height = Math.floor(vp.height);
+    const ctx = cv.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, cv.width, cv.height);
+    await pagina.render({ canvasContext: ctx, viewport: vp }).promise;
+    const img = $("foglio");
+    await new Promise(ok => { img.onload = ok; img.src = cv.toDataURL("image/png"); });
+    img.hidden = false; msg("");
+    $("stampa").hidden = false;
+    $("stampa").onclick = () => window.print();
+    setTimeout(() => window.print(), 300);                         // stampa subito
+  } catch (e) {
+    // se l'anteprima non si può creare, apre direttamente il PDF nel lettore del browser
+    msg("Apro il PDF…");
+    location.href = url;
+  }
+})();
+</script>
+</body>
+</html>
